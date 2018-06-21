@@ -1,4 +1,4 @@
-# Select based Socket Server with Docket
+# Select based Socket Server with Docker
 
 This project is going to be me creating a TCP server that accepts client connections using the select call for synchnorous multiplexing I/O. It's going to reside within a docker container accessing only the loopback address.
 
