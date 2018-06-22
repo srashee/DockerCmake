@@ -1,16 +1,12 @@
-#include <stdio.h>
-#include <windows.h>
-#include <winsock2.h>
-#include <ws2tcpip.h>
+/*Platform-Specific Headers*/
+#ifdef LINUX
+#include "linuxHandling.h"
+#else
+#include "windowsHandling.h"
+#endif
 
-// Move to header 
-#define PORT    32001
+#include "selectServer.h"
 
-// I'm going to move this into another file and keep non-main logic there. 
-void handle(SOCKET newsock, fd_set *set)
-{
-    /*Send, Receive, Close */
-}
 int main(void)
 {
 #ifndef LINUX
@@ -114,10 +110,11 @@ int main(void)
             }
         }
     }
- 
+
     /* Clean up */
+/* Move to windows Handling */
     closesocket(sock);
     WSACleanup();
- 
+
     return 0;
 }
