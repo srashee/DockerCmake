@@ -1,0 +1,22 @@
+# Gitignore File
+
+# objects
+*.o
+#.obj
+
+# Testing files
+*.gcda
+*.gcno
+*.gcov
+
+# Libraries
+*.dll
+*.so
+*.lib
+*.a
+
+# Executables
+*.exe
+*.dll
+selectServer
+
