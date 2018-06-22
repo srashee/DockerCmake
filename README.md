@@ -16,6 +16,20 @@ Docker
 ### Installing
 
 Steps
+```
+Step 1: mkdir build
+```
+
+```
+Step 2: cd build
+```
+```
+Step 3: cmake ..
+```
+
+```
+Step 4: make
+```
 
 
 ## Running the tests
