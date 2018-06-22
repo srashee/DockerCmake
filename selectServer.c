@@ -9,35 +9,44 @@
 
 int main(int argc, char *argv[])
 {
-    int opt = 0;
-
-    /*Specifying expected options here*/
-    /*Consider moving to header file*/
-    static struct option long_options[] =
+    /*Printing out usage*/
+    if (argc == 1)
     {
-        {"verbose",     no_argument,    0,  'v' },
-    };
-
-    int long_index = 0;
-
-    while ((opt = getopt_long(argc, argv,"v", long_options, &long_index)) != -1)
-    {
-        switch (opt) 
-        {
-            case 'v' :
-                printf("Verbose mode activated");
-                break;
-            default: printUsage();
-                exit(0);
-        }
-    return 0;
+        printUsage();
     }
-}
 
+    if (argc == 2)
+    {
+        argv++;
+        switch (*argv[0])
+        {
+            case 'T':
+            printf("Running network tests . . . \n");
+            break;
+
+            case 'P':
+            printf("Please specify port \n");
+            break;
+
+            case 'I':
+            printf("Please specify IP Address \n");
+            break;
+
+            default:
+            printf("Invalid ARGS . . .\n");
+            printUsage();
+            exit(0);
+        }
+
+    }
+
+}
 void printUsage()
 {
-    printf("Select Server Usage: \n");
-    printf("-v for verbose mode\n");
-    printf("-p with number for port specification\n");
-    printf("-i with IP address for specfic IP address\n");
-}
+    printf("SelectServer Usage:\n");
+    printf("Example --- \n");
+    printf("./SelectServer T -- Run network tests\n");
+    printf("./SelectServer P -- Specify port\n");
+    printf("./SelectServer I -- Specfy IP Address <Default Local Loopback>\n");
+    printf("./SelectServer I P -- Specify both IP and Port\n");
+  }
