@@ -9,8 +9,8 @@
 // I'm going to move this into another file and keep non-main logic there. 
 void handle(SOCKET newsock, fd_set *set)
 {
+    /*Send, Receive, Close */
 }
- 
 int main(void)
 {
 #ifndef LINUX

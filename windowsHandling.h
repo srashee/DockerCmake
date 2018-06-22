@@ -1,0 +1,5 @@
+#ifndef WINDOWSHANDLING_H
+#define WINDOWSHANDLING_H
+
+
+#endif /*WINDOWSHANDLING_H*/
