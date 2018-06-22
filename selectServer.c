@@ -7,114 +7,37 @@
 
 #include "selectServer.h"
 
-int main(void)
+int main(int argc, char *argv[])
 {
-#ifndef LINUX
-    WORD wVersion = MAKEWORD(2, 2);
-    WSADATA wsaData;
-#endif /* Windows */
-    int iResult;
-    SOCKET sock;
-    fd_set socks;
-    fd_set readsocks;
-    SOCKET maxsock;
-    int reuseaddr = 1; /* True */
-    struct addrinfo hints, *res;
- 
-    /* Initialise Winsock */
-    if (iResult = (WSAStartup(wVersion, &wsaData)) != 0) {
-        printf("WSAStartup failed: %d\n", iResult);
-        return 1;
-    }
- 
-    /* Get the address info */
-    ZeroMemory(&hints, sizeof hints);
-    hints.ai_family = AF_INET;
-    hints.ai_socktype = SOCK_STREAM;
-    if (getaddrinfo(NULL, PORT, &hints, &res) != 0) {
-        perror("getaddrinfo");
-        WSACleanup();
-        return 1;
-    }
- 
-    /* Create the socket */
-    sock = socket(res->ai_family, res->ai_socktype, res->ai_protocol);
-    if (sock == -1) {
-        perror("socket");
-        WSACleanup();
-        return 1;
-    }
- 
-    /* Enable the socket to reuse the address */
-    if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, (const char*)&reuseaddr, 
-                sizeof(int)) == SOCKET_ERROR) {
-        perror("setsockopt");
-        WSACleanup();
-        return 1;
-    }
- 
-    /* Bind to the address */
-    if (bind(sock, res->ai_addr, res->ai_addrlen) == SOCKET_ERROR) {
-        perror("bind");
-        WSACleanup();
-        return 1;
-    }
- 
-    /* Listen */
-    if (listen(sock, BACKLOG) == SOCKET_ERROR) {
-        perror("listen");
-        WSACleanup();
-        return 1;
-    }
- 
-    /* Set up the fd_set */
-    FD_ZERO(&socks);
-    FD_SET(sock, &socks);
-    maxsock = sock;
- 
-    /* Main loop */
-    while (1) {
-        SOCKET s;
-        readsocks = socks;
-        if (select(maxsock + 1, &readsocks, NULL, NULL, NULL) == SOCKET_ERROR) {
-            perror("select");
-            WSACleanup();
-            return 1;
-        }
-        for (s = 0; s <= maxsock; s++) {
-            if (FD_ISSET(s, &readsocks)) {
-                printf("Socket %d was ready\n", s);
-                if (s == sock) {
-                    /* New connection */
-                    SOCKET newsock;
-                    struct sockaddr_in their_addr;
-                    size_t size = sizeof(struct sockaddr_in);
- 
-                    newsock = accept(sock, (struct sockaddr*)&their_addr, &size);
-                    if (newsock == INVALID_SOCKET) {
-                        perror("accept");
-                    }
-                    else {
-                        printf("Got a connection from %s on port %d\n", 
-                                inet_ntoa(their_addr.sin_addr), htons(their_addr.sin_port));
-                        FD_SET(newsock, &socks);
-                        if (newsock > maxsock) {
-                            maxsock = newsock;
-                        }
-                    }
-                }
-                else {
-                    /* Handle read or disconnection */
-                    handle(s, &socks);
-                }
-            }
-        }
-    }
+    int opt = 0;
 
-    /* Clean up */
-/* Move to windows Handling */
-    closesocket(sock);
-    WSACleanup();
+    /*Specifying expected options here*/
+    /*Consider moving to header file*/
+    static struct option long_options[] =
+    {
+        {"verbose",     no_argument,    0,  'v' },
+    };
 
+    int long_index = 0;
+
+    while ((opt = getopt_long(argc, argv,"v", long_options, &long_index)) != -1)
+    {
+        switch (opt) 
+        {
+            case 'v' :
+                printf("Verbose mode activated");
+                break;
+            default: printUsage();
+                exit(0);
+        }
     return 0;
+    }
+}
+
+void printUsage()
+{
+    printf("Select Server Usage: \n");
+    printf("-v for verbose mode\n");
+    printf("-p with number for port specification\n");
+    printf("-i with IP address for specfic IP address\n");
 }

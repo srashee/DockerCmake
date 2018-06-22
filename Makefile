@@ -1,24 +1,24 @@
-#Saad Rasheed
-
-#Compiler
+TARGET = SelectServer
+LIBS = -lm
 CC = gcc
+CFLAGS = -g -Wall
 
-#Compiler Flags
-CFLAGS = -Wall -g -I.
+.PHONY: default all clean
 
-#Linker Flags
-LDFLAGS = -ldl
+default: $(TARGET)
+all: default
 
-#The build target executable
-TARGET = Example
+OBJECTS = $(patsubst %.c, %.o, $(wildcard *.c))
+HEADERS = $(wildcard *.h)
 
-#Object files to build:
-OBJ = ExampleCode.o
+%.o: %.c $(HEADERS)
+	$(CC) $(CFLAGS) -c $< -o $@
 
-all: $(TARGET)
+.PRECIOUS: $(TARGET) $(OBJECTS)
 
-$(TARGET): $(OBJ)
-	$(CC) $(CFLAGS) -o $(TARGET) $(OBJ) $(LDFLAGS)
+$(TARGET): $(OBJECTS)
+	$(CC) $(OBJECTS) -Wall $(LIBS) -o $@
 
 clean:
-	rm ExampleCode.o Example
+	-rm -f *.o
+	-rm -f $(TARGET)
