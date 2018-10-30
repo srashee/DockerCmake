@@ -44,9 +44,5 @@ int main(int argc, char *argv[])
 void printUsage()
 {
     printf("SelectServer Usage:\n");
-    printf("Example --- \n");
-    printf("./SelectServer T -- Run network tests\n");
-    printf("./SelectServer P -- Specify port\n");
-    printf("./SelectServer I -- Specfy IP Address <Default Local Loopback>\n");
-    printf("./SelectServer I P -- Specify both IP and Port\n");
+    printf("Hello World!\n");
   }
