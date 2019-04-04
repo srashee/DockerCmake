@@ -1,8 +1,9 @@
-# Select based Socket Server with Docker
+# Docker CMake Build System Test repository
 
-This project is going to be me creating a TCP server that accepts client connections using the select call for synchnorous multiplexing I/O. It's going to reside within a docker container accessing only the loopback address unless specified otherwise. It's eventual goal is to establish a connection with my beaglebone over IP.
+This project is used to test the Cmake build system along with docker.
 
-This project is to better use/learn CMake / Docker / and create a functional server if I ever need it.
+I'm using a select server for these tests
+
 ## Getting Started
 
 Additional information on usage will be added later.
